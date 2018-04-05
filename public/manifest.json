@@ -1,0 +1,25 @@
+{
+  "short_name": "Cross Send",
+  "name": "Cross Send",
+  "icons": [{
+    "src": "dva144.png",
+    "type": "image/png",
+    "sizes": "128x128"
+  }, {
+    "src": "dva144.png",
+    "type": "image/png",
+    "sizes": "152x152"
+  }, {
+    "src": "dva144.png",
+    "type": "image/png",
+    "sizes": "144x144"
+  }, {
+    "src": "dva144.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  }],
+  "start_url": "./intro",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

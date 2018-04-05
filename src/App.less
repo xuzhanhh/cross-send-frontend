@@ -1,0 +1,50 @@
+//修改antd 系统样式
+.ant-layout-sider-zero-width-trigger{
+  background: @primary-color!important
+}
+.ant-layout-sider-zero-width-trigger{
+  z-index: 1000;
+}
+#root{
+  height: 100%;
+  font-family: "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.header{
+  &__icon{
+    background: center / contain no-repeat url('./PI_D.Va_Bunny.png');
+    width: 48px;
+    height: 48px;
+  }
+  &__title{
+    font-size: 24px;
+    margin-left: 10px;
+  }
+  &__project{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}
+@media(max-width:577px){
+  .header{
+    &__icon{
+      display: none;
+    }
+    &__title{
+      font-size: 14px;
+    }
+  }
+}
+@media(max-width:383px){
+  .header{
+    &__icon{
+      display: block;
+      // margin
+    }
+    &__title{
+      display: none;
+    }
+  }
+}
