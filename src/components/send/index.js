@@ -4,6 +4,7 @@ import { Layout, Menu, Icon, Button, Tabs, Col, Row } from 'antd';
 import SendComponent from './send'
 import ReceiveComponent from './receive'
 import Welcome from './welcome'
+import BeeBox from './beeBox'
 import './index.less'
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -34,19 +35,27 @@ class Send extends Component {
           <Menu onClick={this._changeCurrentKey} mode="inline" selectedKeys={[currentKey]}>
             <Menu.Item key="welcome">
               <Icon type="rocket" />
-              <span className="nav-text">Welcome</span>
+              <span className="nav-text">欢迎</span>
             </Menu.Item>
             <Menu.Item key="send">
               <Icon type="upload" />
-              <span className="nav-text">SendFile</span>
+              <span className="nav-text">发送文件</span>
             </Menu.Item>
             <Menu.Item key="receive">
               <Icon type="download" />
-              <span className="nav-text">ReceiveFile</span>
+              <span className="nav-text">接收文件</span>
+            </Menu.Item>
+            <Menu.Item key="beeBox">
+              <Icon type="dropbox" />
+              <span className="nav-text">蜜蜂箱</span>
+            </Menu.Item>
+            <Menu.Item key="bulb">
+              <Icon type="bulb" />
+              <span className="nav-text">用户指引</span>
             </Menu.Item>
             <Menu.Item key="documents">
               <Icon type="api" />
-              <span className="nav-text">Documents</span>
+              <span className="nav-text">文档</span>
             </Menu.Item>
             {/* <Menu.Item key="4">
               <Icon type="user" />
@@ -71,6 +80,8 @@ class Send extends Component {
                   return <SendComponent />
                 case 'receive': 
                   return <ReceiveComponent/>
+                case 'beeBox':
+                  return <BeeBox/>
                 default:
                   return <div>服务器开小差了</div>
               }

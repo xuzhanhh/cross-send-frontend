@@ -7,10 +7,16 @@
     "primary-color": "#1DA57A"
   },
   "dependencies": {
+    "antd": "^3.4.1",
+    "babel-plugin-import": "^1.7.0",
+    "bcryptjs": "^2.4.3",
     "clipboard": "^2.0.0",
+    "cos-js-sdk-v5": "^0.4.4",
     "koa": "^2.5.0",
+    "koa-body": "^2.5.0",
     "koa-websocket": "^4.1.0",
-    "react": "^16.2.0",
+    "react": "^16.3.1",
+    "react-app-rewire-less": "^2.1.1",
     "react-clipboard.js": "^1.1.3",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
@@ -26,6 +32,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "react-app-rewire-less": "^2.1.1"
+    "react-app-rewire-less": "^2.1.1",
+    "react-app-rewired": "^1.5.0"
   }
 }

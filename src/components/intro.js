@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import Button from 'antd/lib/button';
 import { Layout, Menu, Icon } from 'antd';
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Redirect } from 'react-router-dom'
 import './intro.less'
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -9,6 +9,7 @@ const MenuItemGroup = Menu.ItemGroup;
 
 class About extends Component {
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '/send' } }
     return (
       <Layout>
 
