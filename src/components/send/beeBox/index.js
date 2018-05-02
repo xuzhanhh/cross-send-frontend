@@ -37,14 +37,14 @@ class BeeBox extends React.Component {
         <Row type="flex" justify="center">
             <Col xs={24} md={12}>
               <div className="welcome__info" onClick={this.showSend}>
-                <Icon type="up-square-o" style={{ fontSize: '120px', color: '#83cdff' }} />
+                <Icon type="cloud-upload-o" style={{ fontSize: '120px', color: '#83cdff' }} />
                 <div className="welcome__info__send__title">我要寄件</div>
                 {/* <div className="welcome__info__send__info">从这一终端选择文件并发送到指定终端(包括windows,mac,android等)</div> */}
               </div>
             </Col>
             <Col xs={24} md={12}>
               <div className="welcome__info" onClick={this.showReceive}>
-                <Icon type="down-square-o" style={{ fontSize: '120px', color: '#83cdff' }} />
+                <Icon type="cloud-download-o" style={{ fontSize: '120px', color: '#83cdff' }} />
                 <div className="welcome__info__send__title">我要收件</div>
                 {/* <div className="welcome__info__send__info">生成uuid,并等待发送端发送文件</div> */}
               </div>
@@ -55,16 +55,19 @@ class BeeBox extends React.Component {
           visible={this.state.sendVisible}
           onOk={this.sendHandleOk}
           onCancel={this.sendHandleCancel}
+          footer={null}
         >
-          <BeeSend/>
+          <BeeSend closeModal={this.sendHandleCancel}/>
         </Modal>
         <Modal
           title="收件"
           visible={this.state.receiveVisible}
           onOk={this.sendHandleOk}
           onCancel={this.sendHandleCancel}
+          footer={null}
+          
         >
-          <BeeReceive/>
+          <BeeReceive closeModal={this.sendHandleCancel}/>
         </Modal>
       </div>
     );
