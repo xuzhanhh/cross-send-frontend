@@ -185,7 +185,7 @@ class BeeSend extends React.Component {
       }
     }
     // if (postData.length > 0) {
-
+    
 
     // }
     console.log(fileData)

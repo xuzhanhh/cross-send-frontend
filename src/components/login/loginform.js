@@ -34,12 +34,12 @@ class OriginLoginForm extends React.Component {
       case 0 :
         notification.success({
           message: '登录成功',
-          description: `欢迎你, ${data.username}`
+          description: `欢迎你, ${data.nickname}`
         })
         // this.setState({
         //   isLogin: true
         // })
-        this.props.updateUserInfo(true, data.username)
+        this.props.updateUserInfo(true, data.username, data.userid, data.nickname)
         break;
       case -1:
         notification.error({

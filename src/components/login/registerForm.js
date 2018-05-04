@@ -8,31 +8,6 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 
-
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
-
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
@@ -47,6 +22,7 @@ class RegistrationForm extends React.Component {
           username: values.username,
           password: values.password,
           email: values.email,
+          nickname: values.nickname,
         })
       }
     });
@@ -58,12 +34,12 @@ class RegistrationForm extends React.Component {
       case 0 :
         notification.success({
           message: '注册成功',
-          description: `欢迎你, ${data.username}`
+          description: `欢迎你, ${data.nickname}`
         })
         // this.setState({
         //   isLogin: true
         // })
-        this.props.updateUserInfo(true, data.username)
+        this.props.updateUserInfo(true, data.username, data.userid, data.nickname)
         break;
       case -1:
         notification.error({

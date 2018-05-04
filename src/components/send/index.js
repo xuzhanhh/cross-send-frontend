@@ -53,10 +53,10 @@ class Send extends Component {
               <Icon type="bulb" />
               <span className="nav-text">用户指引</span>
             </Menu.Item>
-            <Menu.Item key="documents">
+            {/* <Menu.Item key="documents">
               <Icon type="api" />
               <span className="nav-text">文档</span>
-            </Menu.Item>
+            </Menu.Item> */}
             {/* <Menu.Item key="4">
               <Icon type="user" />
               <span className="nav-text">nav 4</span>
