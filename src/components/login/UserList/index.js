@@ -3,6 +3,7 @@ import { notification, Modal, Layout, List, Avatar, Button, Spin, Input } from '
 import reqwest from 'reqwest';
 import './index.less'
 import { postData } from '../../../utils/fetch'
+import DialogueModal from './dialogueModal'
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 const { Header, Content, Footer, Sider } = Layout;
 const Search = Input.Search
@@ -16,6 +17,7 @@ class UserList extends React.Component {
       data: [],
       showUser: false,
       isClickSearch: false,
+      showDialogue: false,
       searchData: []
     }
 
@@ -49,7 +51,7 @@ class UserList extends React.Component {
           <div className="user-list__wrapper">
             <List
               header={<div>好友列表</div>}
-              bordered
+              
               className="demo-loadmore-list"
               loading={loading}
               itemLayout="horizontal"
@@ -57,9 +59,9 @@ class UserList extends React.Component {
               dataSource={data}
               renderItem={item => (
                 <List.Item actions={[
-                  <Button onClick={() => { this._onClickAddFriend(item) }}>私信</Button>,
-                  <Button onClick={() => { this._onClickAddFriend(item) }}>发送文件</Button>,
-                  <Button type="danger" onClick={() => { this._onClickAddFriend(item) }}>删除好友</Button>]}>
+                  <Button onClick={() => { this._showDialogue(item) }}>私信</Button>,
+                  <Button onClick={() => { }}>发送文件</Button>,
+                  <Button type="danger" onClick={() => { }}>删除好友</Button>]}>
                   <List.Item.Meta
                     title={<a href="https://ant.design">{item.nickname}</a>}
                   />
@@ -99,6 +101,13 @@ class UserList extends React.Component {
               /> : null}
             </div>
           </Modal>
+          <Modal
+            title={`私信--${this.state.to?this.state.to.nickname:null}`}
+            visible={this.state.showDialogue}
+            onCancel={this.handleDialogueCancel}
+            footer={null}>
+            <DialogueModal from={this.props.userInfo} to={this.state.to}></DialogueModal>
+          </Modal>
         </div>
 
       </Layout >
@@ -109,18 +118,32 @@ class UserList extends React.Component {
       showUser: false,
     });
   }
-  _searchFriends = async()=>{
-    let ret = await postData('showFriends', {userId: this.props.userInfo.userId})
+  handleDialogueCancel = () => {
     this.setState({
-      loading: false,
-      data: ret.data[0]
+      showDialogue: false
     })
+  }
+  _showDialogue = (to) => {
+    console.log(to)
+    this.setState({
+      to: to,
+      showDialogue: true
+    })
+  }
+  _searchFriends = async () => {
+    let ret = await postData('showFriends', { userId: this.props.userInfo.userId })
+    if (ret.code === 0) {
+      this.setState({
+        loading: false,
+        data: ret.data[0]
+      })
+    }
   }
 
 
   _onClickAddFriend = (item) => {
     this._makeFriendsService(this.props.userInfo.userId, item.id)
-    console.log(this.props.userInfo, item)
+    console.log(item)
 
   }
   _makeFriendsService = async (from, to) => {
@@ -134,6 +157,8 @@ class UserList extends React.Component {
         notification.error({ message: ret.errMessage })
         break;
     }
+    this._searchFriends()
+
   }
 
   _onClickShowAddFriend = () => {

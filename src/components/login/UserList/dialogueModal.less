@@ -1,0 +1,23 @@
+.dialogue{
+  &__to{
+    width: 100%;
+    text-align: right
+  }
+  &__from{
+
+      width: 100%;
+      text-align: left;
+    }
+  &__list{
+    max-height: 500px;
+    overflow: auto;
+  }
+}
+
+@media(max-width:577px){
+  .dialogue{
+    &__list{
+      max-height: 300px;
+    }
+  }
+}
