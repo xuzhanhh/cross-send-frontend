@@ -26,7 +26,7 @@ class ReceiveComponent extends Component {
   render() {
     const { currentFileInfo, loading, selectValue, step, uuid, showComfirm, fileInfo, receiveFile } = this.state
     const listDataSource = []
-    receiveFile.forEach(value=>{
+    receiveFile.forEach(value => {
       listDataSource.push(value)
     })
     console.log('render', loading)
@@ -36,7 +36,7 @@ class ReceiveComponent extends Component {
       lineHeight: '30px',
     };
     console.log('render', socket)
-
+    console.log(this.state)
     return (
       <div>
         {step === 1 ?
@@ -50,7 +50,11 @@ class ReceiveComponent extends Component {
               {/* <br /> */}
               <Radio style={radioStyle} value={2}><Tooltip placement="right" title="您需要输入uuid来进行配对">这是我想接收文件的其余设备</Tooltip></Radio>
             </RadioGroup>
-            {selectValue === 2 ? <Input placeholder="请输入uuid" /> : null}
+            {selectValue === 2 ? <Input placeholder="请输入uuid" onChange={(e) => {
+              this.setState({
+                uuid: e.target.value
+              })
+            }} /> : null}
             <Button onClick={this._gotoStep2}>下一步</Button>
           </div>) : null
         }
@@ -89,23 +93,25 @@ class ReceiveComponent extends Component {
           ) : null
         }
         <Modal title="请确认" visible={showComfirm} onOk={this._onOkModal} onCancel={this._onCancelModal}>
-          向您发送了{currentFileInfo?Object.keys(currentFileInfo).length:null}个文件:
-          {currentFileInfo?this._renderFileInfo():null}
-          <div style={{float:'right'}}>是否下载?</div></Modal>
+          向您发送了{currentFileInfo ? Object.keys(currentFileInfo).length : null}个文件:
+          {currentFileInfo ? this._renderFileInfo() : null}
+          {selectValue === 1 ? <div style={{ float: 'right' }}>是否下载?</div> : <div style={{ float: 'right' }}>正在等待主接收端确认</div>}
+
+        </Modal>
       </div>)
   }
-  _renderFileInfo(){
+  _renderFileInfo() {
     const { currentFileInfo } = this.state
     let output = []
-    
-    Object.keys(currentFileInfo).forEach((fileName)=>{
+
+    Object.keys(currentFileInfo).forEach((fileName) => {
       let fileInfo = currentFileInfo[fileName]
       output.push(<div key={fileInfo.fileName}>{`${fileInfo.fileName} 约(${this._genNumber(fileInfo.fileSize)})`}</div>)
     })
     return output
     // return `${fileInfo.fileName} 约(${this._genNumber(fileInfo.fileSize)})`
   }
-  _genNumber(fileSize){
+  _genNumber(fileSize) {
     // console.log(fileSize)
     let myFileSize = fileSize
     let suffix = ['B', 'KB', 'MB', 'GB'], i = 0
@@ -123,10 +129,12 @@ class ReceiveComponent extends Component {
     socket && socket.emit('refuseSend')
   }
   _onOkModal = () => {
-    this.setState({
-      showComfirm: false
-    })
-    socket && socket.emit('allowSend')
+    if (this.state.selectValue === 1) {
+      this.setState({
+        showComfirm: false
+      })
+      socket && socket.emit('allowSend')
+    }
   }
   onChangeSelectValue = (e) => {
     this.setState({
@@ -154,7 +162,12 @@ class ReceiveComponent extends Component {
     });
   }
   _gotoStep2 = async () => {
-    let uuid = await this._getUuid()
+    let uuid = null
+    if (this.state.selectValue === 2) {
+      uuid = this.state.uuid
+    } else {
+      uuid = await this._getUuid()
+    }
     this._createSocket(uuid)
     this.setState({
       step: 2
@@ -204,9 +217,9 @@ class ReceiveComponent extends Component {
     socket && socket.on('sendChunkLength', (res) => {
       let { receiveFile } = this.state
       receiveFile.set(res.fileName, Object.assign(receiveFile.get(res.fileName), {
-        tempBlob : [],
-        totalRecive : res.times,
-        fileSize : res.totalSize,
+        tempBlob: [],
+        totalRecive: res.times,
+        fileSize: res.totalSize,
         tempRecive: 1,
       }))
       this.setState({
@@ -214,10 +227,15 @@ class ReceiveComponent extends Component {
       })
       console.log('sendChunkLength', receiveFile)
     })
+    socket && socket.on('allowSend', () => {
+      this.setState({
+        showComfirm: false
+      })
+    })
     socket && socket.on('binary', (data) => {
       let { receiveFile } = this.state
       const { fileName } = data
-      let tempReceive = receiveFile.get(fileName) 
+      let tempReceive = receiveFile.get(fileName)
       console.log('[default] [binary]', data.index, data.buffer.byteLength)
       //如果完全接受
       if (tempReceive.tempRecive === tempReceive.totalRecive) {
@@ -235,8 +253,8 @@ class ReceiveComponent extends Component {
         this.setState({
           receiveFile
         })
-        data.buffer.byteLength>0&&notification.success({
-          duration:2,
+        data.buffer.byteLength > 0 && notification.success({
+          duration: 2,
           message: '下载完成',
           description: `${fileName}下载完成`
         })
@@ -245,7 +263,7 @@ class ReceiveComponent extends Component {
         console.log(this.state)
         // let preFileInfo = this.state.receiveFile[0]
         tempReceive.currentInfo = this.chunkSize * (++(tempReceive.tempRecive)) / Number(tempReceive.fileSize)
-        tempReceive.currentInfo = tempReceive.currentInfo>1?1:tempReceive.currentInfo
+        tempReceive.currentInfo = tempReceive.currentInfo > 1 ? 1 : tempReceive.currentInfo
         tempReceive.isFinish = false
         tempReceive.tempBlob.push(data.buffer)
         receiveFile.set(fileName, tempReceive)

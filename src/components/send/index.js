@@ -5,6 +5,7 @@ import SendComponent from './send'
 import ReceiveComponent from './receive'
 import Welcome from './welcome'
 import BeeBox from './beeBox'
+import Introduce from './introduce'
 import './index.less'
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -49,9 +50,9 @@ class Send extends Component {
               <Icon type="dropbox" />
               <span className="nav-text">蜜蜂箱</span>
             </Menu.Item>
-            <Menu.Item key="bulb">
+            <Menu.Item key="introduce">
               <Icon type="bulb" />
-              <span className="nav-text">用户指引</span>
+              <span className="nav-text">用户手册</span>
             </Menu.Item>
             {/* <Menu.Item key="documents">
               <Icon type="api" />
@@ -82,6 +83,8 @@ class Send extends Component {
                   return <ReceiveComponent/>
                 case 'beeBox':
                   return <BeeBox/>
+                case 'introduce':
+                  return <Introduce/>
                 default:
                   return <div>服务器开小差了</div>
               }

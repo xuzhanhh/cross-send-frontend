@@ -49,9 +49,9 @@ class Welcome extends Component {
               </div>
             </Col>
             <Col xs={24} md={12}>
-              <div className="welcome__info" onClick={() => { onClickCard('bee') }}>
+              <div className="welcome__info" onClick={() => { onClickCard('introduce') }}>
                 <Icon type="bulb" style={{ fontSize: '120px', color: '#83cdff' }} />
-                <div className="welcome__info__send__title">用户向导</div>
+                <div className="welcome__info__send__title">用户手册</div>
                 <div className="welcome__info__send__info">不知道那种方式适合你?请点击这里</div>
               </div>
             </Col>

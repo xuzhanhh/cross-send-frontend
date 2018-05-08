@@ -9,9 +9,16 @@ class DialogueModal extends React.Component {
     this.state = {
       data: []
     }
-  }
-  componentDidMount() {
     this._getMessage()
+  }
+  componentDidUpdate() {
+    // this._getMessage()
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props.to.id, nextProps.to.id)
+    if (this.props.to.id !== nextProps.to.id) {
+      this._getMessage(nextProps.to.id)
+    }
   }
   render() {
     console.log(this.props)
@@ -58,10 +65,10 @@ class DialogueModal extends React.Component {
   sortId = (a, b) => {
     return a.id - b.id
   }
-  _getMessage = async () => {
+  _getMessage = async (id) => {
     let ret = await postData('findMessage', {
       from: this.props.from.userId,
-      to: this.props.to.id,
+      to: id?id:this.props.to.id,
     })
     if (ret.code === 0) {
       this.setState({
